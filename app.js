@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import { assignments as assignmentsFromFile } from "./data/assignments.js";
 import { comments as commentsFromFile } from "./data/comments.js";
+import accountsRouter from "./routes/accounts.js";
 
 let assignments = [...assignmentsFromFile];
 let comments = [...commentsFromFile];
@@ -10,6 +11,7 @@ const app = express();
 const port = 4000;
 
 app.use(bodyParser.json());
+app.use("/accounts", accountsRouter);
 
 app.get("/", (req, res) => {
   return res.send("Hello Teacher!!");
@@ -145,26 +147,6 @@ app.delete("/assignments/:id/comments", (req, res) => {
   return res.json({
     message: `Comment of assignment ${assignmentId} has been deleted.`,
   });
-});
-
-app.get("/accounts", function (req, res) {
-  res.send("View all accounts");
-});
-
-app.get("/accounts/:id", function (req, res) {
-  res.send("View an account by id");
-});
-
-app.post("/accounts", function (req, res) {
-  res.send("Create an account");
-});
-
-app.put("/accounts/:id", function (req, res) {
-  res.send("Update an account by id");
-});
-
-app.delete("/accounts/:id", function (req, res) {
-  res.send("Delete an account by id");
 });
 
 app.listen(port, () => {
